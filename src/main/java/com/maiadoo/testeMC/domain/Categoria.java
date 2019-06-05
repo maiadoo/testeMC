@@ -2,11 +2,19 @@ package com.maiadoo.testeMC.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity 
 public class Categoria implements Serializable{ //A classe pode converter os atributos para dados 
 										//para que eles possam ser gravados em arquivos, trafegados em rede, etc.  	
 	private static final long serialVersionUID = 1L; //Controle de versao, exigencia do serializable
 	
 	//Atributos basicos
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY) //Gera chave primaria no BD de teste H2
 	private Integer id;
 	private String nome;//
 	
