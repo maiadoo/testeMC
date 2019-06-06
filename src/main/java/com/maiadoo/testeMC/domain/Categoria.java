@@ -18,6 +18,10 @@ public class Categoria implements Serializable{ //A classe pode converter os atr
 	private Integer id;
 	private String nome;//
 	
+	public Categoria() {
+		
+	}
+	
 	//Metodo construtor
 	public Categoria(Integer id, String nome) {
 		super();
