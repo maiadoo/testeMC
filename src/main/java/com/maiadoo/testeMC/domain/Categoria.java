@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity 
 public class Categoria implements Serializable{ //A classe pode converter os atributos para dados 
 										//para que eles possam ser gravados em arquivos, trafegados em rede, etc.  	
@@ -21,11 +23,11 @@ public class Categoria implements Serializable{ //A classe pode converter os atr
 	private Integer id;
 	private String nome;//
 	
+	@JsonManagedReference //Tudo certo em serializar os produtos, parar referencia ciclica
 	@ManyToMany(mappedBy = "categorias") //Mapeamento feito em categorias
 	private List<Produto> produtos = new ArrayList<>(); //Uma categoria tem mais de um produto; instancia porque é uma colecao
 	
-	public Categoria() { // Nao adicionar colecoes como paramentro no construtor já que foi instanciada acima
-		
+	public Categoria() { // Nao adicionar colecoes como paramentro no construtor já que foi instanciada acima	
 	}
 	
 	//Metodo construtor

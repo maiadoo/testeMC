@@ -13,6 +13,8 @@ import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity
 public class Produto implements Serializable{ //A classe pode converter os atributos para dados 
@@ -25,16 +27,15 @@ public class Produto implements Serializable{ //A classe pode converter os atrib
 	private String nome;
 	private Double preco;
 	
+	@JsonBackReference //Do outro lado já foram buscadas as referecias
 	@ManyToMany //Relacionamento muitos para muitos
 	@JoinTable(name = "PRODUTO_CATEGORIA",
 			joinColumns = @JoinColumn(name = "produto_id"),
 			inverseJoinColumns = @JoinColumn(name = "categoria_id")
-	) //Definicao de tabela relacional; nome da tabela, chave estrangeira de produto e categoria
-	
+	) //Definicao de tabela relacional; nome da tabela, chave estrangeira de produto e categoria	
 	private List<Categoria> categorias = new ArrayList<>(); // Um produto pode ter uma ou mais categorias, instancia porque e uma colecao
 	
-	public Produto() { // Nao adicionar colecoes como paramentro no construtor já que foi instanciada acima
-		
+	public Produto() { // Nao adicionar colecoes como paramentro no construtor já que foi instanciada acima		
 	}
 
 	//Metodo construtor
