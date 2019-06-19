@@ -1,11 +1,14 @@
 package com.maiadoo.testeMC.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity 
 public class Categoria implements Serializable{ //A classe pode converter os atributos para dados 
@@ -18,7 +21,10 @@ public class Categoria implements Serializable{ //A classe pode converter os atr
 	private Integer id;
 	private String nome;//
 	
-	public Categoria() {
+	@ManyToMany(mappedBy = "categorias") //Mapeamento feito em categorias
+	private List<Produto> produtos = new ArrayList<>(); //Uma categoria tem mais de um produto; instancia porque é uma colecao
+	
+	public Categoria() { // Nao adicionar colecoes como paramentro no construtor já que foi instanciada acima
 		
 	}
 	
@@ -44,9 +50,18 @@ public class Categoria implements Serializable{ //A classe pode converter os atr
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
 	}//
 
-	//Comparar valores por conteudo e nao ponteiro de memoria, so ID
+	//Comparar valores por conteudo e nao ponteiro de memoria, so ID, implementacao padrao
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -71,6 +86,7 @@ public class Categoria implements Serializable{ //A classe pode converter os atr
 			return false;
 		return true;
 	}//
+
 	
 	
 }
