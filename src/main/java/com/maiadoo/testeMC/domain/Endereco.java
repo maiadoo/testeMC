@@ -42,6 +42,7 @@ public class Endereco implements Serializable{ //A classe pode converter os atri
 		this.bairro = bairro;
 		this.cep = cep;
 		this.cliente = cliente;
+		this.cidade = cidade; //Esqueci!!!!! //
 	}
 
 	//Gets e sets
