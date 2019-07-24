@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Endereco implements Serializable{ //A classe pode converter os atributos para dados 
 												//para que eles possam ser gravados em arquivos, trafegados em rede, etc.  	
@@ -24,6 +26,7 @@ public class Endereco implements Serializable{ //A classe pode converter os atri
 	private String bairro;
 	private String cep;
 	
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente; //Um endereço só tem um cliente
@@ -31,6 +34,10 @@ public class Endereco implements Serializable{ //A classe pode converter os atri
 	@ManyToOne
 	@JoinColumn(name = "cidade_id")
 	private Cidade cidade; 
+	
+	public Endereco() {
+		
+	}
 
 	public Endereco(Integer id, String logradouro, String numero, String complemento, String bairro, String cep,
 			Cliente cliente, Cidade cidade) {

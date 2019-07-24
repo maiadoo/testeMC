@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.maiadoo.testeMC.domain.enuns.TipoCliente;
 
 @Entity
@@ -30,6 +31,7 @@ public class Cliente implements Serializable{ //A classe pode converter os atrib
 	private String cpfOuCnpj;
 	private Integer tipo; //Internamente ele será reconhecido como dado Integer mas externamente como um tipo enumerado TipoCliente
 	
+	@JsonManagedReference //Tudo certo em serializar os endereços, parar referencia ciclica
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>(); //Um cliente pode ter mais de um endereço
 	
