@@ -1,5 +1,6 @@
 package com.maiadoo.testeMC;
 
+import java.text.SimpleDateFormat;
 //import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,13 +14,20 @@ import com.maiadoo.testeMC.domain.Cidade;
 import com.maiadoo.testeMC.domain.Cliente;
 import com.maiadoo.testeMC.domain.Endereco;
 import com.maiadoo.testeMC.domain.Estado;
+import com.maiadoo.testeMC.domain.Pagamento;
+import com.maiadoo.testeMC.domain.PagamentoComBoleto;
+import com.maiadoo.testeMC.domain.PagamentoComCartao;
+import com.maiadoo.testeMC.domain.Pedido;
 import com.maiadoo.testeMC.domain.Produto;
+import com.maiadoo.testeMC.domain.enuns.EstadoPagamento;
 import com.maiadoo.testeMC.domain.enuns.TipoCliente;
 import com.maiadoo.testeMC.repositories.CategoriaRepository;
 import com.maiadoo.testeMC.repositories.CidadeRepository;
 import com.maiadoo.testeMC.repositories.ClienteRepository;
 import com.maiadoo.testeMC.repositories.EnderecoRepository;
 import com.maiadoo.testeMC.repositories.EstadoRepository;
+import com.maiadoo.testeMC.repositories.PagamentoRepository;
+import com.maiadoo.testeMC.repositories.PedidoRepository;
 import com.maiadoo.testeMC.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -39,6 +47,11 @@ public class TesteMcApplication implements CommandLineRunner{
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private EnderecoRepository enderecoRepository;	
+	
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 	
 	
 	public static void main(String[] args) {
@@ -93,6 +106,22 @@ public class TesteMcApplication implements CommandLineRunner{
 		
 		clienteRepository.save(Arrays.asList(cli1)); //Cliente salva primeiro pois é independente 
 		enderecoRepository.save(Arrays.asList(e1, e2));
+		
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Pedido ped1 = new Pedido(null, sdf.parse("30/06/2019 10:32"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("01/07/2019 12:10"), cli1, e2);
+		
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pagto1);
+		
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("30/07/2019 00:00"), null);
+		ped2.setPagamento(pagto2);
+		
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		
+		pedidoRepository.save(Arrays.asList(ped1, ped2)); //Pedido salva primeiro pois é independente 
+		pagamentoRepository.save(Arrays.asList(pagto1, pagto2));
 		
 	}
 
